@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional
 
 
 
@@ -20,7 +20,7 @@ class SchemaPostagemAvaliacao(BaseModel):
     Método POST
     """
     id_canoa: int = 1
-    id_usuario: int = 21999999999
+    id_usuario: str = "21999999999"
     nota: float = 5
     comentario: str = "Totalmente Excelente!!"
 
@@ -53,7 +53,7 @@ class SchemaVisualizacaoPostagem(BaseModel):
     """
     id_avaliacao: int = 1
     id_canoa: int
-    id_usuario: int
+    id_usuario: str
     nota: float
     comentario: str = "Totalmente Excelente!"
     

@@ -1,15 +1,15 @@
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from sqlalchemy import func
-from sqlalchemy.exc import IntegrityError
-import requests
-
+from flask_graphql import GraphQLView
 
 from models import Session
 from models.avaliacao import Avaliacao
 
 from schemas import *
+from schema_graphQL import schema
 from logger import logger
+
 
 from flask_cors import CORS
 
@@ -118,7 +118,15 @@ def exclui_postagem(form: SchemaExclusaoAvaliacao):
         session.close()
 
 
-
+# Configuração do endpoint GraphQL
+app.add_url_rule(
+    '/graphql',
+    view_func=GraphQLView.as_view(
+        'graphql',
+        schema=schema,
+        graphiql=True  # Habilita a interface GraphiQL para testar queries
+    )
+)
 
 
 if __name__ == '__main__':

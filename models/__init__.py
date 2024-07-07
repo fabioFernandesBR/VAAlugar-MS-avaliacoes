@@ -3,9 +3,9 @@ Criei este arquivo init dentro da pasta database e aqui vou colocar
 tanto as funções de uso do banco de dados quanto os modelos SQLAlchemy.
 '''
 
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, declarative_base
 from sqlalchemy import (create_engine)
-from sqlalchemy.ext.declarative import declarative_base
+#from sqlalchemy.ext.declarative import declarative_base ###deprecated?
 
 # Classe Base
 ### essa função vem do SQLAlchemy, e cria a classe Base, que será usada depois

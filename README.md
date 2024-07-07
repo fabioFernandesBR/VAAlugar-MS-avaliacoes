@@ -13,11 +13,11 @@
 
 ## Criação do banco de dados: 1 tabela!!
 CREATE TABLE avaliacoes (
-    id_avaliacao     INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_canoa         INTEGER,
-    nota             FLOAT,
-    comentario       TEXT,
-    id_usuario       INTEGER
+    id_avaliacao INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_canoa     INTEGER,
+    nota         FLOAT,
+    comentario   TEXT,
+    id_usuario   TEXT
 );
 
 ## Instalação

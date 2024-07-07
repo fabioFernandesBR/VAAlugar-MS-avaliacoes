@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Numeric, REAL
+from sqlalchemy import Column, String, Integer, Numeric
 from models import Base
 
 
@@ -7,7 +7,7 @@ class Avaliacao(Base):
 
     id_avaliacao = Column(Integer, primary_key = True)
     id_canoa = Column(Integer)
-    id_usuario = Column(Integer)
+    id_usuario = Column(String(140))
     nota = Column(Numeric())
     comentario = Column(String(280))
 
