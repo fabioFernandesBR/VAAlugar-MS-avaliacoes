@@ -26,7 +26,7 @@ class AvaliacaoSchemaGraphQL(SQLAlchemyObjectType):
 # Definição de consultas GraphQL
 
 class Query(ObjectType):
-    posts = List(AvaliacaoSchemaGraphQL, idCanoa = Int(), idUsuario = Int(), idReserva = Int())
+    posts = List(AvaliacaoSchemaGraphQL, idCanoa = Int(), idUsuario = String(), idReserva = Int())
 
     def resolve_posts(self, info, idCanoa=None, idUsuario=None, idReserva = None):
         query = AvaliacaoSchemaGraphQL.get_query(info)  # SQLAlchemy query
