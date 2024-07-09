@@ -14,16 +14,19 @@
 ## Criação do banco de dados: 1 tabela!!
 CREATE TABLE avaliacoes (
     id_avaliacao INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_canoa     INTEGER,
-    nota         FLOAT,
+    id_canoa     INTEGER NOT NULL,
+    nota         FLOAT   NOT NULL,
     comentario   TEXT,
-    id_usuario   TEXT
+    id_usuario   TEXT    NOT NULL,
+    id_reserva   INTEGER NOT NULL
+                         UNIQUE
 );
+
 
 ## Instalação
 Para instalar: use o arquivo requirements.txt para instalar os módulos. No windows: pip install -r requirements.txt Recomendo instalação em um ambiente virtual
 
-Para executar localmente, em ambiente Windows: flask run --host 0.0.0.0 --port 5000 --reload
+Para executar localmente, em ambiente Windows: flask run --host 0.0.0.0 --port 5003 --reload
 
 ## Como executar através do Docker
 Certifique-se de ter o Docker instalado e em execução em sua máquina.

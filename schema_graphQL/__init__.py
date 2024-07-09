@@ -16,6 +16,7 @@ class AvaliacaoSchemaGraphQL(SQLAlchemyObjectType):
 
     # Mapeamento de campos
     idPost = Int(source='id_avaliacao')  # Mapeando idPost para id_avaliacao no modelo SQLAlchemy
+    idReserva = Int(source ='id_reserva')
     idCanoa = Int(source='id_canoa')
     idUsuario = String(source='id_usuario')
 
@@ -25,9 +26,9 @@ class AvaliacaoSchemaGraphQL(SQLAlchemyObjectType):
 # Definição de consultas GraphQL
 
 class Query(ObjectType):
-    posts = List(AvaliacaoSchemaGraphQL, idCanoa = Int(), idUsuario = String())
+    posts = List(AvaliacaoSchemaGraphQL, idCanoa = Int(), idUsuario = Int(), idReserva = Int())
 
-    def resolve_posts(self, info, idCanoa=None, idUsuario=None):
+    def resolve_posts(self, info, idCanoa=None, idUsuario=None, idReserva = None):
         query = AvaliacaoSchemaGraphQL.get_query(info)  # SQLAlchemy query
 
         if idCanoa:
@@ -35,6 +36,9 @@ class Query(ObjectType):
 
         if idUsuario:
             query = query.filter(AvaliacaoDBmodel.id_usuario == idUsuario)
+
+        if idReserva:
+            query = query.filter(AvaliacaoDBmodel.id_reserva == idReserva)
 
         return query.all()
 

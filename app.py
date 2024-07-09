@@ -6,7 +6,8 @@ from flask_graphql import GraphQLView
 from models import Session
 from models.avaliacao import Avaliacao
 
-from schemas import *
+from schemas.mensagem_erro import *
+from schemas.postagem import *
 from schema_graphQL import schema
 from logger import logger
 
@@ -44,6 +45,7 @@ def posta_avaliacao(form: SchemaPostagemAvaliacao):
     logger.debug(f"Recebidos dados para postagem de avaliação: {form}")
     print(f"Recebidos dados para postagem de avaliação: {form}")
     avaliacao = Avaliacao(
+        id_reserva = form.id_reserva,
         id_canoa = form.id_canoa,
         id_usuario = form.id_usuario,
         nota = form.nota,
@@ -58,6 +60,7 @@ def posta_avaliacao(form: SchemaPostagemAvaliacao):
         # efetivando o comando postagem da avaliação na tabela
         session.commit()
         
+        ### Calcula novas estatísticas a respeito da canoa após a inclusão da nota.
         quantidade_avaliacoes = session.query(func.count(Avaliacao.id_avaliacao)).filter_by(id_canoa = avaliacao.id_canoa).scalar()
         media_avaliacoes = session.query(func.avg(Avaliacao.nota)).filter_by(id_canoa = avaliacao.id_canoa).scalar()
         print(f"Quantidade de avaliações para a canoa {avaliacao.id_canoa}: {quantidade_avaliacoes}")
@@ -74,7 +77,7 @@ def posta_avaliacao(form: SchemaPostagemAvaliacao):
 
 
 @app.delete('/excluir', tags=[exclusao_postagem_tag],
-            responses={"200": SchemaVisualizacaoCanoa, "404": SchemaMensagemErro, "400": SchemaMensagemErro})
+            responses={"200": SchemaVisualizacaoPostagem, "404": SchemaMensagemErro, "400": SchemaMensagemErro})
 def exclui_postagem(form: SchemaExclusaoAvaliacao):
     """Exclui uma postagem.
 
@@ -99,13 +102,13 @@ def exclui_postagem(form: SchemaExclusaoAvaliacao):
         session.commit()
         logger.debug(f"Postagem excluída do banco de dados: {postagem}")
         
-        
+        ### Calcula novas estatísticas a respeito da canoa após a exclusão da nota.
         quantidade_avaliacoes = session.query(func.count(Avaliacao.id_avaliacao)).filter_by(id_canoa = postagem.id_canoa).scalar()
         media_avaliacoes = session.query(func.avg(Avaliacao.nota)).filter_by(id_canoa = postagem.id_canoa).scalar()
         print(f"Quantidade de avaliações para a canoa {postagem.id_canoa}: {quantidade_avaliacoes}")
         print(f"Média de avaliações para a canoa {postagem.id_canoa}: {media_avaliacoes}")
                     
-        return comunica_avaliacao_excluida_completa(postagem, nova_quantidade = quantidade_avaliacoes, nova_media = media_avaliacoes)
+        return comunica_avaliacao_completa(postagem, nova_quantidade = quantidade_avaliacoes, nova_media = media_avaliacoes)
 
     
     except Exception as e:
