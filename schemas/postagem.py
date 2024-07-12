@@ -18,11 +18,11 @@ class SchemaPostagemAvaliacao(BaseModel):
 
     Método POST
     """
-    id_reserva: int = 1
-    id_canoa: int = 1
-    id_usuario: str = "21999999999"
-    nota: float = 5
-    comentario: str = "Totalmente Excelente!!"
+    id_reserva: int
+    id_canoa: int
+    id_usuario: str
+    nota: float
+    comentario: str = None
 
 class SchemaExclusaoAvaliacao(BaseModel):
     """ 
@@ -39,11 +39,11 @@ class SchemaVisualizacaoPostagem(BaseModel):
     Define como uma nova postagem recém criada ou excluída deve ser representada. 
     Fluxo: da API para o usuário.
     """
-    id_avaliacao: int = 1
+    id_avaliacao: int
     id_canoa: int
     id_usuario: str
     nota: float
-    comentario: str = "Totalmente Excelente!"
+    comentario: str
     nova_quantidade: int
     nova_media: float
     
